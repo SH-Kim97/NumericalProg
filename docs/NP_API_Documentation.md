@@ -7,6 +7,24 @@ description: Numerical Method example
 
 `#include "myNM.h"`
 
+
+
+## Differentiation
+
+
+
+### gradient1D()
+
+Returns the dy/dx results for the input data of y(x) with truncation error: O(h^2)
+
+```
+double newtonRaphson(double x0, double tol);
+```
+
+
+
+
+
 ## Non-Linear Solver
 
 ### newtonRaphson\(\)

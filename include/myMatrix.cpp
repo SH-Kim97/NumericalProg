@@ -1,13 +1,14 @@
 /*----------------------------------------------------------------\
 @ Numerical Methods by Young-Keun Kim - Handong Global University
 
-Author           : [YOUR NAME]
+Author           : ±è½ÂÈ¯
 Created          : 26-03-2018
-Modified         : 18-03-2021
+Modified         : 14-10-2021
 Language/ver     : C++ in MSVS2019
 
 Description      : myMatrix.cpp
 ----------------------------------------------------------------*/
+
 
 #include "myMatrix.h"
 
@@ -95,19 +96,23 @@ void	printMat(Matrix _A, const char* _name)
 	printf("\n");
 }
 
-
 // initialization of Matrix elements
 void	initMat(Matrix _A, double _val)
 {
 	for (int i = 0; i < _A.rows; i++)
+	{
 		for (int j = 0; j < _A.cols; j++)
+		{
 			_A.at[i][j] = _val;
+		}
+	}
 }
 
 // Create matrix of all zeros
 Matrix	zeros(int _rows, int _cols)
 {
 	Matrix Out = createMat(_rows, _cols);
+
 	initMat(Out, 0);
 
 	return Out;

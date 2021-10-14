@@ -1,25 +1,29 @@
 /*----------------------------------------------------------------\
 @ Numerical Methods by Young-Keun Kim - Handong Global University
 
-Author           : [YOUR NAME]
+Author           : ±è½ÂÈ¯
 Created          : 26-03-2018
-Modified         : 18-03-2021
+Modified         : 14-10-2021
 Language/ver     : C++ in MSVS2019
 
 Description      : myMatrix.h
 ----------------------------------------------------------------*/
 
+
 #ifndef		_MY_MATRIX_H		// use either (#pragma once) or  (#ifndef ...#endif)
 #define		_MY_MATRIX_H
+
 
 #include <iostream>
 #include <string>
 #include <fstream>
 
+
 typedef struct { 
 	double** at;
 	int rows, cols;
 }Matrix;
+
 
 //using namespace std;
 
@@ -34,8 +38,6 @@ extern	Matrix	txt2Mat(std::string _filePath, std::string _fileName);
 
 //// Print matrix
 extern	void	printMat(Matrix _A, const char* _name);
-
-
 
 
 /// It is recommended to create the following functions.
@@ -60,6 +62,5 @@ extern	Matrix	copyMat(Matrix _A);
 
 // Copy matrix Elements from A to B
 extern	void	copyVal(Matrix _A, Matrix _B);
-
 
 #endif

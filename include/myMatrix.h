@@ -3,7 +3,7 @@
 
 Author           : ±è½ÂÈ¯
 Created          : 26-03-2018
-Modified         : 14-10-2021
+Modified         : 09-12-2021
 Language/ver     : C++ in MSVS2019
 
 Description      : myMatrix.h
@@ -17,6 +17,8 @@ Description      : myMatrix.h
 #include <iostream>
 #include <string>
 #include <fstream>
+#define _USE_MATH_DEFINES
+#include "math.h"
 
 
 typedef struct { 
@@ -24,8 +26,7 @@ typedef struct {
 	int rows, cols;
 }Matrix;
 
-
-//using namespace std;
+using namespace std;
 
 // Create Matrix with specified size
 extern	Matrix	createMat(int _rows, int _cols);
@@ -36,11 +37,8 @@ extern	void	freeMat(Matrix _A);
 // Create a matrix from a text file
 extern	Matrix	txt2Mat(std::string _filePath, std::string _fileName);
 
-//// Print matrix
+// Print matrix
 extern	void	printMat(Matrix _A, const char* _name);
-
-
-/// It is recommended to create the following functions.
 
 // initialization of Matrix elements
 extern	void	initMat(Matrix _A, double _val);
@@ -57,10 +55,10 @@ extern	Matrix	eye(int _rows, int _cols);
 // Create Transpose matrix
 extern	Matrix	transpose(Matrix _A);
 
-// Copy matrix
-extern	Matrix	copyMat(Matrix _A);
-
 // Copy matrix Elements from A to B
 extern	void	copyVal(Matrix _A, Matrix _B);
+
+// Copy matrix
+extern	Matrix	copyMat(Matrix _A);
 
 #endif

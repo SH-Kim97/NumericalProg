@@ -3,7 +3,7 @@
 
 Author           : ±è½ÂÈ¯
 Created          : 26-03-2018
-Modified         : 14-10-2021
+Modified         : 09-12-2021
 Language/ver     : C++ in MSVS2019
 
 Description      : myMatrix.cpp
@@ -88,7 +88,8 @@ Matrix	txt2Mat(std::string _filePath, std::string _fileName)
 void	printMat(Matrix _A, const char* _name)
 {
 	printf("%s =\n", _name);
-	for (int i = 0; i < _A.rows; i++) {
+	for (int i = 0; i < _A.rows; i++)
+	{
 		for (int j = 0; j < _A.cols; j++)
 			printf("%15.6f\t", _A.at[i][j]);
 		printf("\n");
@@ -100,12 +101,8 @@ void	printMat(Matrix _A, const char* _name)
 void	initMat(Matrix _A, double _val)
 {
 	for (int i = 0; i < _A.rows; i++)
-	{
 		for (int j = 0; j < _A.cols; j++)
-		{
 			_A.at[i][j] = _val;
-		}
-	}
 }
 
 // Create matrix of all zeros
@@ -114,6 +111,67 @@ Matrix	zeros(int _rows, int _cols)
 	Matrix Out = createMat(_rows, _cols);
 
 	initMat(Out, 0);
+
+	return Out;
+}
+
+// Create matrix of all ones
+Matrix	ones(int _rows, int _cols)
+{
+	Matrix Out = createMat(_rows, _cols);
+
+	initMat(Out, 1);
+
+	return Out;
+}
+
+// Create identity 
+Matrix	eye(int _rows, int _cols)
+{
+	Matrix Out = zeros(_rows, _cols);
+
+	int k = min(_rows, _cols);
+
+	for (int i = 0; i < k; i++)
+		Out.at[i][i] = 1;
+
+	return Out;
+}
+
+// Create Transpose matrix
+Matrix	transpose(Matrix _A)
+{
+	Matrix Out = createMat(_A.cols, _A.rows);
+
+	for (int i = 0; i < _A.cols; i++)
+		for (int j = 0; j < _A.rows; j++)
+			Out.at[i][j] = _A.at[j][i];
+
+	return Out;
+}
+
+// Copy matrix Elements from A to B
+void	copyVal(Matrix _A, Matrix _B)
+{
+	if (_A.rows != _B.rows || _A.cols != _B.cols)
+	{
+		printf("\n*************************************************");
+		printf("\n  ERROR!!: dimension error at 'copyVal' function");
+		printf("\n*************************************************\n");
+		exit(0);
+	}
+
+	for (int i = 0; i < _A.rows; i++)
+		for (int j = 0; j < _A.cols; j++)
+			_B.at[i][j] = _A.at[i][j];
+}
+
+// Copy matrix
+Matrix	copyMat(Matrix _A)
+{
+	Matrix Out = createMat(_A.rows, _A.cols);
+
+	copyVal(_A, Out);
 
 	return Out;
 }

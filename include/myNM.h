@@ -171,4 +171,10 @@ extern double dfunc(const double x);
 // Apply Newton-Raphson method
 extern double newtonRaphson(double func(const double x), double dfunc(const double x), double x0, double tol);
 
+// Apply log curve fit
+extern void logfit(Matrix x, Matrix y, double z[]);
+
+// Apply Newton-Raphson method for system
+extern void newtonRaphson2(double x0, double y0, double tol, double ans[]);
+
 #endif

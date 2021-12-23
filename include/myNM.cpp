@@ -775,7 +775,7 @@ Matrix eig(Matrix _A)
 	Matrix U = copyMat(_A);
 	Matrix Out = createMat(U.rows, 1);
 
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 500; i++)
 	{
 		QRdecomp(U, Q, R);
 		U = multMat(R, Q);
@@ -1014,4 +1014,80 @@ double newtonRaphson(double func(const double x), double dfunc(const double x), 
 	}
 
 	return xn;
+}
+
+// Apply log curve fit
+void logfit(Matrix x, Matrix y, double z[])
+{
+	if (x.rows != y.rows)
+	{
+		printf("\n***********************************************************");
+		printf("\n  ERROR: The number of elements of x and y are not same.");
+		printf("\n***********************************************************\n");
+		exit(0);
+	}
+
+	int m = x.rows;
+	double Sx = 0;
+	double Sy = 0;
+	double Sxx = 0;
+	double Sxy = 0;
+
+	for (int i = 0; i < m; i++)
+	{
+		Sx += log(x.at[i][0]);
+		Sy += log(y.at[i][0]);
+		Sxx += log(x.at[i][0]) * log(x.at[i][0]);
+		Sxy += log(x.at[i][0]) * log(y.at[i][0]);
+	}
+
+	z[0] = (m * Sxy - Sx * Sy) / (m * Sxx - Sx * Sx);
+	z[1] = (Sxx * Sy - Sx * Sxy) / (m * Sxx - Sx * Sx);
+}
+
+// Apply Newton-Raphson method for system
+void newtonRaphson2(double x0, double y0, double tol, double ans[])
+{
+	Matrix J = createMat(2, 2);
+	Matrix Jinv = createMat(2, 2);
+	Matrix Xn = createMat(2, 1);
+	Matrix F = createMat(2, 1);
+
+	int Nmax = 1000;
+	Xn.at[0][0] = x0;
+	Xn.at[1][0] = y0;
+	double x_tol = fabs(Xn.at[1][0] - 2 * (exp(Xn.at[0][0] / 2) + exp(-Xn.at[0][0] / 2)));
+	double y_tol = fabs(9 * pow(Xn.at[0][0], 2) + 16 * pow(Xn.at[1][0], 2) - 289);
+	double ep = max(x_tol, y_tol);
+
+	for (int i = 0; i < Nmax; i++)
+	{
+		printf("i = %d\t x = %f\t y = %f\t x_tol = %f\t y_tol = %f\n", i, Xn.at[0][0], Xn.at[1][0], x_tol, y_tol);
+
+		if (ep <= tol)
+			break;
+
+		J.at[0][0] = exp(-Xn.at[0][0] / 2) - exp(Xn.at[0][0] / 2);
+		J.at[0][1] = 1;
+		J.at[1][0] = 18 * Xn.at[0][0];
+		J.at[1][1] = 32 * Xn.at[1][0];
+
+		F.at[0][0] = Xn.at[1][0] - 2 * (exp(Xn.at[0][0] / 2) + exp(-Xn.at[0][0] / 2));
+		F.at[1][0] = 9 * pow(Xn.at[0][0], 2) + 16 * pow(Xn.at[1][0], 2) - 289;
+
+		inv(J, Jinv);
+
+		Matrix H = multMat(Jinv, F);
+		Xn.at[0][0] -= H.at[0][0];
+		Xn.at[1][0] -= H.at[1][0];
+
+		x_tol = fabs(Xn.at[1][0] - 2 * (exp(Xn.at[0][0] / 2) + exp(-Xn.at[0][0] / 2)));
+		y_tol = fabs(9 * pow(Xn.at[0][0], 2) + 16 * pow(Xn.at[1][0], 2) - 289);
+		ep = max(x_tol, y_tol);
+	}
+
+	ans[0] = Xn.at[0][0];
+	ans[1] = Xn.at[1][0];
+
+	freeMat(J);		freeMat(Jinv);		freeMat(Xn);		freeMat(F);
 }
